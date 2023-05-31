@@ -1,12 +1,11 @@
 import Project from "../models/Project.js"
+import Task from "../models/Task.js"
 
 export const resolvers = {
     Query  : {
         hello : () => 'Hey!',
-        projects : async() => {
-            const project = await Project.find()
-            return project;
-        }
+        projects : async() => await Project.find(),
+        tasks : async() => await Task.find()
 
     },
 
@@ -19,6 +18,21 @@ export const resolvers = {
 
             const savedProject = await project.save()
             return savedProject
+
+        },
+
+        createTask : async(_,  { title, projectId }) => {
+
+            const projectFound = await Project.findById( projectId )
+            if (!projectFound) throw new Error( 'Project not found 💔' )
+
+            const task = new Task({
+                title,
+                projectId
+            })
+
+            const taskSaved = await task.save()
+            return taskSaved;
 
         }
     }
