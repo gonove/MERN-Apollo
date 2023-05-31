@@ -10,9 +10,9 @@ const ProjectSchema = new mongoose.Schema({
 	}},
 
     {
-	timestamps: true,
-    });
-
+    timestamps: true,
+    }
+);
 
 ProjectSchema.methods.toJSON = function() {
     const { __v, ...resto } = this.toObject();
