@@ -76,4 +76,12 @@ export const resolvers = {
       return updatedTask;
     },
   },
+
+  Project: {
+    tasks: async (parents) => await Task.find({ projectId: parents._id }),
+  },
+
+  Task: {
+    project: async (parents) => await Project.findById(parents.projectId),
+  },
 };
