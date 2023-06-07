@@ -4,8 +4,10 @@ import Task from '../models/Task.js';
 export const resolvers = {
   Query: {
     hello: () => 'Hey!',
+
     projects: async () => await Project.find(),
     project: async (_, _id) => await Project.findById(_id),
+
     task: async (_, _id) => await Task.findById(_id),
     tasks: async () => await Task.find(),
   },
@@ -48,6 +50,30 @@ export const resolvers = {
       if (!taskDeleted) throw new Error('Task not found 💔');
 
       return taskDeleted;
+    },
+
+    updateProject: async (_, args) => {
+      const updatedProject = await Project.findByIdAndUpdate(args._id, args, {
+        new: true, //*Para devolver el elemento actualizado
+      });
+
+      if (!updatedProject) {
+        throw new Error('Project not found </3');
+      }
+
+      return updatedProject;
+    },
+
+    updateTask: async (_, args) => {
+      const updatedTask = await Task.findByIdAndUpdate(args._id, args, {
+        new: true, //*Para devolver el elemento actualizado
+      });
+
+      if (!updatedTask) {
+        throw new Error('Task not found </3');
+      }
+
+      return updatedTask;
     },
   },
 };
